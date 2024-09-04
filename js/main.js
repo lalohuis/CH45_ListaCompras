@@ -1,4 +1,5 @@
 const btnAgregar = document.getElementById("btnAgregar");
+const btnClear = document.getElementById("btnClear");
 const txtNombre = document.getElementById("Name");
 const txtNumber = document.getElementById("Number");
 const alertValidaciones = document.getElementById("alertValidaciones");
@@ -15,6 +16,8 @@ let contador =0;
 let precio = 0;
 let costoTotal = 0;
 let totalEnProductos =0;
+
+let datos = new Array();
 
 function validadCantidad(){
     if(txtNumber.value.length==0){
@@ -46,7 +49,7 @@ btnAgregar.addEventListener("click", function (event){
         alertValidacionesTexto.innerHTML="";
         alertValidaciones.style.display="none";
         isValid = true;
-}
+})
 //Validar el nombre del producto
     if(txtNombre.value.length<3){
         txtNombre.style.border="solid red medium";
@@ -72,6 +75,16 @@ if(isValid){
         <td>${txtNumber.value}</td>
         <td>${precio}</td>
     </tr>`;
+
+    let elemento = {"contador": contador, 
+                    "nombre": txtNombre.value,
+                    "cantidad": txtNumber. value,
+                    "precio": precio};
+
+    datos.push(elemento);
+    localStorage.setItem("datos", JSON.stringify(datos));
+
+
     cuerpoTabla.insertAdjacentHTML("beforeend", row);
  
     costoTotal += precio * Number(txtNumber.value);
@@ -89,6 +102,37 @@ if(isValid){
     txtNumber.value="";
     txtNombre.focus();
 }//isValid
+
+btnClear.addEventListener("Click", function(event){
+    event.preventDefault();
+    //Limpiar el valor de los campos
+    txtNombre.value= "";
+    txtNumber.value.value="";
+    //Limpiar el LocalStorage
+    //Elimina por cada llave/ clave un sólo e
+    lemento
+    // localStorage.removeItem("contador");
+    // localStorage.removeItem("costoTotal");
+    // localStorage.removeItem("totalEnProductos");
+    //Elimina todo el contenido del localStorage
+    localStorage.clear();
+    //Limpiar la tabla
+    cuerpoTabla.innerHTML="";
+    //Reiniciar las variables,contador, coatoTotal, total En Productos
+    contador=0;
+    costoTotal=0;
+    totalEnProductos=0;
+    // Asignar las variables a los divs
+    contadorProductos.innerText = contador;
+    productosTotal.innerText = totalEnProductos;
+    preciototal.innerText ="$ "+costoTotal.toFixed(2);
+    //Ocultar la alerta
+    alertavalidacionesTexto.InnerHTML="";
+    alertavalidaciones.style.display="none";
+    //Quitar los bordes
+    txtNombre.style.border="";
+    txtNumber.style.border="";
+});
 
 ); //btnAgregar.addEventListener
 //evento blur es cuando un campo pierde el foco, se sale del campo
